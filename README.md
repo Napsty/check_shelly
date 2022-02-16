@@ -1,5 +1,5 @@
 # check_shelly
-Monitoring plugin for Shelly devices (power switch/power meter)
+Monitoring plugin for Shelly devices (power relay/power meter). Tested on 2nd Gen device (Shelly Pro 4 PM).
 
 ### API Resources
 https://shelly-api-docs.shelly.cloud/
