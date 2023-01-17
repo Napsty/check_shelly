@@ -186,9 +186,10 @@ elif checktype == "meter":
     # aenergy by minute: array of numbers, energy consumption by minute (in Milliwatt-hours) for the last three minutes (the lower the index of the element in the array, the closer to the current moment the minute)
     aenergy_by_minute = data['result']['aenergy']['by_minute']
     temp_celsius = data['result']['temperature']['tC']
+    powerstatus = data['result']['output']
 
-    output="SHELLY OK: Device (%s) SWITCH_%i, currently using %i Watt / %i Amp" % (devicename, shelly_switch, apower, current)
-    perfdata="|power=%i current=%i total_power=%.3f temp=%.1f" % (apower, current, aenergy_total, temp_celsius)
+    output="SHELLY OK: Device (%s) SWITCH_%i is %s, currently using %i Watt / %i Amp" % (devicename, shelly_switch, "on" if powerstatus else "off", apower, current)
+    perfdata="|power=%i current=%i total_power=%.3f temp=%.1f powerstatus=%i" % (apower, current, aenergy_total, temp_celsius, 1 if powerstatus else 0)
     systemexit(exit_status, output, perfdata)
 
 else:
