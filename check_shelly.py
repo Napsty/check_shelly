@@ -7,16 +7,16 @@
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or 
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of 
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>. 
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # Copyright (c) 2022 Claudio Kuenzler www.claudiokuenzler.com
 #
@@ -112,7 +112,7 @@ if checktype == "info":
     auth_en = data['auth_en']
     if auth_en:
         authinfo="Authentication is enabled"
-    else: 
+    else:
         authinfo="Authentication is disabled"
 
     output= "SHELLY OK: Device %s (Model: %s, Generation: %s, Firmware: %s) is running - %s" % (devicename, model, gen, fwversion, authinfo)
@@ -152,7 +152,7 @@ elif checktype == "system":
         output_warning="SHELLY WARNING: Device (%s) requires a restart" % (devicename)
         exit_status=1
 
-    if (exit_status > 1): 
+    if (exit_status > 1):
         output=output_critical
     elif (exit_status > 0):
         output=output_warning
@@ -163,13 +163,13 @@ elif checktype == "system":
     systemexit(exit_status, output, perfdata)
 
 elif checktype == "meter":
-    postdata = { "id": 1, "method": "Switch.GetStatus", "params": {"id": shelly_switch} } 
+    postdata = { "id": 1, "method": "Switch.GetStatus", "params": {"id": shelly_switch} }
     if auth:
         try:
             r = requests.post(apiurl, json=postdata, auth=HTTPDigestAuth(args.user, args.password))
         except OSError as err:
             systemexit(2, "SHELLY CRITICAL: {0}".format(err), "")
-    else: 
+    else:
         try:
             r = requests.post(apiurl, json=postdata)
         except OSError as err:
