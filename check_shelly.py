@@ -40,6 +40,7 @@ ignore_restart=False
 shelly_model="Pro4PM"
 shelly_switch=0
 exit_status=0
+powerstate=-1
 
 # Input parameters
 description = "check_shelly v%s - Monitoring Plugin for Shelly 2nd gen power devices" % version
@@ -52,6 +53,7 @@ parser.add_argument('-t', '--type', dest='checktype', required=True, choices=['i
 parser.add_argument('-m', '--model', dest='shelly_model', help='Hardware model of Shelly device (defaults to Pro4PM)')
 parser.add_argument('-s', '--switch', dest='shelly_switch', type=int, help='Select the switch id of this Shelly device (e.g. switch_0 would be 0, defaults to 0)')
 parser.add_argument('--ignore-restart', dest='ignore_restart', action='store_true', help='Ignore the fact that the device requires a restart')
+parser.add_argument('--powerstate', dest='powerstate', choices=['0','1','off','on'], help='Check for powerstate of the switch, raises a warning state if different, requires --type=meter')
 args = parser.parse_args()
 
 # Handle inputs, overwrite defaults
@@ -78,6 +80,9 @@ if (args.ignore_restart):
 
 if (args.checktype):
     checktype=args.checktype
+
+if (args.powerstate):
+    powerstate=args.powerstate
 
 # Handle different Shelly device models (shelly_model) or device generations
 # todo: maybe this can be used in the future
@@ -188,7 +193,20 @@ elif checktype == "meter":
     temp_celsius = data['result']['temperature']['tC']
     powerstatus = data['result']['output']
 
-    output="SHELLY OK: Device (%s) SWITCH_%i is %s, currently using %i Watt / %i Amp" % (devicename, shelly_switch, "on" if powerstatus else "off", apower, current)
+    # If actual powerstatus is not the desired powerstate then raise warning
+    if ( (powerstate == "1" or powerstate == "on") and not powerstatus) or ( (powerstate == "0" or powerstate == "off") and powerstatus):
+        exit_status=1
+
+    if (exit_status == 0):
+        state_text = "OK"
+    elif (exit_status == 1):
+        state_text = "WARNING"
+    elif (exit_status == 2):
+        state_text = "CRITICAL"
+    else:
+        state_text = "UNKNOWN"
+
+    output="SHELLY %s: Device (%s) SWITCH_%i is %s, currently using %i Watt / %i Amp" % (state_text, devicename, shelly_switch, "on" if powerstatus else "off", apower, current)
     perfdata="|power=%i current=%i total_power=%.3f temp=%.1f powerstatus=%i" % (apower, current, aenergy_total, temp_celsius, 1 if powerstatus else 0)
     systemexit(exit_status, output, perfdata)
 
