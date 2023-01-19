@@ -198,6 +198,7 @@ elif checktype == "meter":
         if expect_powerstatus != powerstatus:
             exit_status=1
 
+    # Set state text for monitoring ("SHELLY WARNING" etc.)
     if (exit_status == 0):
         state_text = "OK"
     elif (exit_status == 1):
