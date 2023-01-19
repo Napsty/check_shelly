@@ -40,7 +40,7 @@ ignore_restart=False
 shelly_model="Pro4PM"
 shelly_switch=0
 exit_status=0
-expect_powerstatus=-1
+expect_powerstatus=None
 
 # Input parameters
 description = "check_shelly v%s - Monitoring Plugin for Shelly 2nd gen power devices" % version
@@ -82,7 +82,7 @@ if (args.checktype):
     checktype=args.checktype
 
 if (args.expect_powerstatus):
-    expect_powerstatus=args.expect_powerstatus
+    expect_powerstatus=True if args.expect_powerstatus == "1" or args.expect_powerstatus == "on" else False
 
 # Handle different Shelly device models (shelly_model) or device generations
 # todo: maybe this can be used in the future
@@ -194,8 +194,9 @@ elif checktype == "meter":
     powerstatus = data['result']['output']
 
     # If actual powerstatus is not the expected powerstatus then raise warning
-    if ( (expect_powerstatus == "1" or expect_powerstatus == "on") and not powerstatus) or ( (expect_powerstatus == "0" or expect_powerstatus == "off") and powerstatus):
-        exit_status=1
+    if expect_powerstatus != None:
+        if expect_powerstatus != powerstatus:
+            exit_status=1
 
     if (exit_status == 0):
         state_text = "OK"
