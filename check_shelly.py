@@ -83,6 +83,9 @@ if (args.checktype):
 
 if (args.expect_powerstatus):
     expect_powerstatus=True if args.expect_powerstatus == "1" or args.expect_powerstatus == "on" else False
+    if checktype != "meter":
+        print("SHELLY UNKNOWN: expect-powerstatus requires check type 'meter'")
+        sys.exit(3)
 
 # Handle different Shelly device models (shelly_model) or device generations
 # todo: maybe this can be used in the future
