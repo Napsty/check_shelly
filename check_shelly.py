@@ -19,13 +19,15 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # Copyright (c) 2022 Claudio Kuenzler www.claudiokuenzler.com
+# Copyright (c) 2023 Bernd Arnold
 #
 # History:
 # 20220214-16: Development on Shelly Pro 4 PM (2nd Gen device)
 # 20220216 0.1: Code published in public repository
+# 20230120 0.2: Check whether relay switch is turned on or off (--expect-powerstatus)
 ######################################################################
 # version
-version='0.1'
+version='0.2'
 
 # imports
 import argparse
