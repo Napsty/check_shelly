@@ -29,7 +29,7 @@
 # 20230718 0.3: Support for generation 1 shelly devices (Fabian Ihle)
 ######################################################################
 # version
-version='0.2'
+version='0.3'
 
 # imports
 import argparse
