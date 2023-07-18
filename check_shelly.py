@@ -20,11 +20,13 @@
 #
 # Copyright (c) 2022 Claudio Kuenzler www.claudiokuenzler.com
 # Copyright (c) 2023 Bernd Arnold
+# Copyright (c) 2023 Fabian Ihle
 #
 # History:
 # 20220214-16: Development on Shelly Pro 4 PM (2nd Gen device)
 # 20220216 0.1: Code published in public repository
 # 20230120 0.2: Check whether relay switch is turned on or off (--expect-powerstatus)
+# 20230718 0.3: Support for generation 1 shelly devices (Fabian Ihle)
 ######################################################################
 # version
 version='0.2'
